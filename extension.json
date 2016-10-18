@@ -1,0 +1,38 @@
+{
+	"name": "BlueSpiceUserMergeConnector",
+	"version": "2.27.0",
+	"author": [
+		"Patric Wirth"
+	],
+	"url": "https://help.bluespice.com/index.php/BlueSpiceUserMergeConnector",
+	"descriptionmsg": "bs-usermergeconnector-extension-description",
+	"type": "bluespice",
+	"callback": "UserMergeConnector::onRegistration",
+	"MessagesDirs": {
+		"BlueSpiceUserMergeConnector": [
+			"i18n"
+		]
+	},
+	"GroupPermissions": {
+		"bureaucrat": {
+			"usermerge": true
+		},
+		"sysop": {
+			"usermerge": true
+		}
+	},
+	"AutoloadClasses": {
+		"UserMergeConnector": "UserMergeConnector.class.php"
+	},
+	"Hooks": {
+		"UserMergeAccountFields": "UserMergeConnector::UserMergeAccountFields",
+		"MergeAccountFromTo": [
+			"UserMergeConnector::onMergeAccountFromToManageReviewTemplates",
+			"UserMergeConnector::onMergeAccountFromToManageBSSocial"
+		]
+	},
+	"config": {
+		"UserMergeProtectedGroups": []
+	},
+	"manifest_version": 1
+}

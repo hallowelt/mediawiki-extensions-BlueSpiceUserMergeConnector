@@ -3,6 +3,49 @@
 class UserMergeConnector {
 	private static $aCheckedBSUpdateFields = null;
 
+	/**
+	 * extension.json callback
+	 * @global array $wgUserMergeProtectedGroups
+	 */
+	public static function onRegistration() {
+		$GLOBALS['wgUserMergeProtectedGroups'] = array();
+
+		$GLOBALS['bsgUserMergeConnectorUpdateFields'] = array(
+			//BlueSpiceExtensions
+			array( 'bs_dashboards_configs', 'dc_identifier' ),
+			array( 'bs_readers', 'readers_user_id', 'readers_user_name' ),
+			array( 'bs_responsible_editors', 're_user_id' ),
+			array( 'bs_review', 'rev_owner' ),
+			array( 'bs_review_steps', 'revs_user_id' ),
+			array( 'bs_review_templates', 'revt_owner' ),
+			//needs more functionality: see below
+			//array( 'bs_review_templates', 'revt_user' ),
+			//needs more functionality. Also BS does not care on userDelete
+			//array( 'bs_saferedit', 'se_user_name' ), needs more functionality
+			array( 'bs_searchstats', 'stats_user' ),
+			array( 'bs_shoutbox', 'sb_user_id', 'sb_user_name' ),
+			//needs more functionality. Also BS does not care on userDelete
+			//array( 'bs_whoisonline', 'wo_user_id', 'wo_user_name' ),
+
+			//BlueSpiceDistribution
+			array( 'echo_email_batch', 'eeb_user_id' ),
+			array( 'echo_event', 'event_agent_id' ),
+			array( 'echo_notification', 'notification_user' ),
+
+			//BlueSpiceTeamwork
+			array( 'bs_reminder', 'rem_user_id' ),
+
+			//BlueSpiceRating
+			array( 'bs_rating', 'rat_userid', 'rat_userip' ),
+
+			//BlueSpiceArticelPermissions
+			array( 'bs_user_admission', 'ua_user_id' ),
+
+			//BlueSpiceRentALink
+			array( 'bs_ad_banners_customers', 'adbc_user_id' ),
+		);
+	}
+
 	protected static function getBSUpdateFields() {
 		if( !is_null(self::$aCheckedBSUpdateFields) ) {
 			return self::$aCheckedBSUpdateFields;
