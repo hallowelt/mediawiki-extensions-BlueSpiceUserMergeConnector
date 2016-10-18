@@ -59,19 +59,3 @@ $wgHooks['MergeAccountFromTo'][]
 
 $wgHooks['MergeAccountFromTo'][]
 	= 'UserMergeConnector::onMergeAccountFromToManageBSSocial';
-
-//FlaggedRevs
-//TODO: Remove this on later versions, cause this was added already - see:
-//https://gerrit.wikimedia.org/r/#/c/146025/5
-if( class_exists('FRUserCounters') ) {
-	$wgAutoloadLocalClasses['FRUserCountersUserMergeConnector']
-		= __DIR__."/includes/FlaggedRevs/FRUserCountersUserMergeConnector.php";
-
-	#UserMerge hooks
-	$wgHooks['UserMergeAccountFields'][]
-		= 'FRUserCountersUserMergeConnector::onUserMergeAccountFields';
-	$wgHooks['MergeAccountFromTo'][]
-		= 'FRUserCountersUserMergeConnector::onMergeAccountFromTo';
-	$wgHooks['DeleteAccount'][]
-		= 'FRUserCountersUserMergeConnector::onDeleteAccount';
-}
