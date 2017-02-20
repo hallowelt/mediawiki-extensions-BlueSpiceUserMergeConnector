@@ -129,6 +129,63 @@ class UserMergeConnector {
 		return true;
 	}
 
+	/**
+	 * PageAssignments use a users name in the table field 'pa_assignee_key'
+	 * @param User $oldUser
+	 * @param User $newUser
+	 * @return boolean
+	 */
+	public static function onMergeAccountFromToManagePageAssignments( User &$oldUser, User &$newUser ) {
+		$sTable = 'bs_pageassignments';
+		if( !wfGetDB( DB_SLAVE )->tableExists( $sTable ) ) {
+			return true;
+		}
+		$aFields = ['pa_assignee_type', 'pa_page_id', 'pa_assignee_key'];
+		$aConditions = [
+			'pa_assignee_type' => 'user',
+			'pa_assignee_key' => $oldUser->getName()
+		];
+		$oRes = wfGetDB( DB_SLAVE )->select(
+			$sTable,
+			$aFields,
+			$aConditions,
+			__METHOD__
+		);
+		foreach( $oRes as $oRow ) {
+			$aOldConds = array();
+			foreach( $aFields as $sField ) {
+				$aOldConds[$sField] = $oRow->{$sField};
+			}
+			$aNewConds = array_merge(
+				$aOldConds,
+				['pa_assignee_key' => $newUser->getName()]
+			);
+
+			$bPANewExists = wfGetDB( DB_SLAVE )->selectRow(
+				$sTable,
+				'*',
+				$aNewConds
+			);
+			//Just delete the old users assignment, when the new user is already
+			//assigned to the same page
+			if( $bPANewExists ) {
+				$bRes = wfGetDB( DB_MASTER )->delete(
+					$sTable,
+					$aOldConds,
+					__METHOD__
+				);
+				continue;
+			}
+			$bRes = wfGetDB( DB_MASTER )->update(
+				$sTable,
+				$aNewConds,
+				$aOldConds,
+				__METHOD__
+			);
+		}
+		return true;
+	}
+
 	public static function onMergeAccountFromToManageBSSocial( User &$oldUser, User &$newUser ) {
 		if( !class_exists('BSSocial') ) {
 			return true;
