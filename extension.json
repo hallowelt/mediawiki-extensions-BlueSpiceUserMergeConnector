@@ -28,7 +28,8 @@
 		"UserMergeAccountFields": "UserMergeConnector::UserMergeAccountFields",
 		"MergeAccountFromTo": [
 			"UserMergeConnector::onMergeAccountFromToManageReviewTemplates",
-			"UserMergeConnector::onMergeAccountFromToManageBSSocial"
+			"UserMergeConnector::onMergeAccountFromToManageBSSocial",
+			"UserMergeConnector::onMergeAccountFromToManagePageAssignments"
 		]
 	},
 	"config": {
