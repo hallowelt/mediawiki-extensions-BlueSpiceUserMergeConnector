@@ -32,6 +32,9 @@ $bsgUserMergeConnectorUpdateFields = array(
 
 	//BlueSpiceRentALink
 	array( 'bs_ad_banners_customers', 'adbc_user_id' ),
+
+	//ReadConfirmation
+	array( 'bs_readconfirmation', 'rc_user_id' ),
 );
 
 $wgExtensionCredits['other'][] = array(
