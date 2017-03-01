@@ -60,6 +60,9 @@ $wgHooks['MergeAccountFromTo'][]
 $wgHooks['MergeAccountFromTo'][]
 	= 'UserMergeConnector::onMergeAccountFromToManageBSSocial';
 
+$wgHooks['MergeAccountFromTo'][]
+	= 'UserMergeConnector::onMergeAccountFromToManagePageAssignments';
+
 //FlaggedRevs
 //TODO: Remove this on later versions, cause this was added already - see:
 //https://gerrit.wikimedia.org/r/#/c/146025/5
