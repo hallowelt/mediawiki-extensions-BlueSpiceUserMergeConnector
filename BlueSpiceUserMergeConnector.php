@@ -1,2 +1,5 @@
 <?php
-wfLoadExtension( 'BlueSpiceUserMergeConnector' );
+
+if ( function_exists( 'wfLoadExtension' ) ) {
+	wfLoadExtension( 'BlueSpiceUserMergeConnector' );
+}
