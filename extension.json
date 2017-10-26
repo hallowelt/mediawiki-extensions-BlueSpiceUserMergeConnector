@@ -32,8 +32,5 @@
 			"UserMergeConnector::onMergeAccountFromToManagePageAssignments"
 		]
 	},
-	"config": {
-		"UserMergeProtectedGroups": []
-	},
 	"manifest_version": 1
 }
