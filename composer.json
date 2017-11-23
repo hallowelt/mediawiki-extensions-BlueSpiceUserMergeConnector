@@ -2,6 +2,7 @@
 	"name": "mediawiki/blue-spice-user-merge-connector",
 	"type": "mediawiki-extension",
 	"description": "Connects BlueSpice with UserMerge",
+	"license": "GPL-3.0",
 	"require": {
 		"composer/installers": "~1.0"
 	},
