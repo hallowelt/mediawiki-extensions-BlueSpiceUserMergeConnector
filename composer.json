@@ -1,5 +1,5 @@
 {
-	"name": "mediawiki/blue-spice-user-merge-connector",
+	"name": "bluespice/usermergeconnector",
 	"type": "mediawiki-extension",
 	"description": "Connects BlueSpice with UserMerge",
 	"license": "GPL-3.0-only",
@@ -17,5 +17,8 @@
 			"phpunit",
 			"phpcs -p -s"
 		]
+	},
+	"extra": {
+		"installer-name": "BlueSpiceUserMergeConnector"
 	}
 }
