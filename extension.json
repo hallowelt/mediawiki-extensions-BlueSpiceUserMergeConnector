@@ -8,7 +8,31 @@
 	"url": "https://help.bluespice.com/index.php/BlueSpiceUserMergeConnector",
 	"descriptionmsg": "bs-usermergeconnector-extension-description",
 	"type": "bluespice",
-	"callback": "UserMergeConnector::onRegistration",
+	"attributes": {
+		"BlueSpiceFoundation": {
+			"Extensions": {
+				"BlueSpiceUserMergeConnector": {
+					"className": "\\BlueSpice\\UserMergeConnector\\Extension",
+					"extPath": "/BlueSpiceUserMergeConnector"
+				}
+			},
+			"PermissionRegistry": {
+				"usermerge": {
+					"type": "global",
+					"roles": [
+						"admin"
+					]
+				}
+			}
+		}
+	},
+		"requires": {
+		"MediaWiki": ">= 1.31.0",
+		"extensions": {
+			"BlueSpiceFoundation": "*"
+		}
+	},
+	"callback": "\\BlueSpice\\UserMergeConnector\\Extension::onRegistration",
 	"MessagesDirs": {
 		"BlueSpiceUserMergeConnector": [
 			"i18n"
@@ -22,16 +46,19 @@
 			"usermerge": true
 		}
 	},
-	"AutoloadClasses": {
-		"UserMergeConnector": "UserMergeConnector.class.php"
+	"AvailableRights": [
+		"usermerge"
+	],
+	"AutoloadNamespaces": {
+		"BlueSpice\\UserMergeConnector\\": "src/"
 	},
 	"Hooks": {
-		"UserMergeAccountFields": "UserMergeConnector::UserMergeAccountFields",
+		"UserMergeAccountFields": "\\BlueSpice\\UserMergeConnector\\Extension::UserMergeAccountFields",
 		"MergeAccountFromTo": [
-			"UserMergeConnector::onMergeAccountFromToManageReviewTemplates",
-			"UserMergeConnector::onMergeAccountFromToManageBSSocial",
-			"UserMergeConnector::onMergeAccountFromToManagePageAssignments"
+			"\\BlueSpice\\UserMergeConnector\\Extension::onMergeAccountFromToManageReviewTemplates",
+			"\\BlueSpice\\UserMergeConnector\\Extension::onMergeAccountFromToManageBSSocial",
+			"\\BlueSpice\\UserMergeConnector\\Extension::onMergeAccountFromToManagePageAssignments"
 		]
 	},
-	"manifest_version": 1
+	"manifest_version": 2
 }
