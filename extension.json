@@ -5,7 +5,7 @@
 	"author": [
 		"Patric Wirth"
 	],
-	"url": "https://help.bluespice.com/index.php/BlueSpiceUserMergeConnector",
+	"url": "https://en.wiki.bluespice.com/wiki/Reference:BlueSpiceUserMergeConnector",
 	"descriptionmsg": "bs-usermergeconnector-extension-description",
 	"type": "bluespice",
 	"callback": "UserMergeConnector::onRegistration",
