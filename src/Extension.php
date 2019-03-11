@@ -1,6 +1,7 @@
 <?php
+namespace BlueSpice\UserMergeConnector;
 
-class UserMergeConnector {
+class Extension extends \BlueSpice\Extension {
 	private static $aCheckedBSUpdateFields = null;
 
 	/**
@@ -60,7 +61,7 @@ class UserMergeConnector {
 	}
 
 	protected static function checkBSUpdateFields( $aFields, $aReturn = array() ) {
-		$oDBr = wfGetDB( DB_SLAVE );
+		$oDBr = \wfGetDB( DB_SLAVE );
 		foreach( $aFields as $aFieldInfo ) {
 			if( !$oDBr->tableExists($aFieldInfo[0]) ) {
 				continue;
@@ -84,8 +85,8 @@ class UserMergeConnector {
 	 * @param User $newUser
 	 * @return boolean
 	 */
-	public static function onMergeAccountFromToManageReviewTemplates( User &$oldUser, User &$newUser ) {
-		$oDBr = wfGetDB( DB_SLAVE );
+	public static function onMergeAccountFromToManageReviewTemplates( \User &$oldUser, \User &$newUser ) {
+		$oDBr = \wfGetDB( \DB_SLAVE );
 		if( !class_exists('Review') ) {
 			return true;
 		}
@@ -121,7 +122,7 @@ class UserMergeConnector {
 		if( empty($aUpdateIDs) ) {
 			return true;
 		}
-		$oDBw = wfGetDB( DB_MASTER );
+		$oDBw = w\fGetDB( \DB_MASTER );
 		foreach( $aUpdateIDs as $iID => $aValues ) {
 			$oDBw->update(
 				'bs_review_templates',
@@ -138,9 +139,9 @@ class UserMergeConnector {
 	 * @param User $newUser
 	 * @return boolean
 	 */
-	public static function onMergeAccountFromToManagePageAssignments( User &$oldUser, User &$newUser ) {
+	public static function onMergeAccountFromToManagePageAssignments( \User &$oldUser, \User &$newUser ) {
 		$sTable = 'bs_pageassignments';
-		if( !wfGetDB( DB_SLAVE )->tableExists( $sTable ) ) {
+		if( !\wfGetDB( \DB_SLAVE )->tableExists( $sTable ) ) {
 			return true;
 		}
 		$aFields = ['pa_assignee_type', 'pa_page_id', 'pa_assignee_key'];
@@ -148,7 +149,7 @@ class UserMergeConnector {
 			'pa_assignee_type' => 'user',
 			'pa_assignee_key' => $oldUser->getName()
 		];
-		$oRes = wfGetDB( DB_SLAVE )->select(
+		$oRes = \wfGetDB( \DB_SLAVE )->select(
 			$sTable,
 			$aFields,
 			$aConditions,
@@ -164,7 +165,7 @@ class UserMergeConnector {
 				['pa_assignee_key' => $newUser->getName()]
 			);
 
-			$bPANewExists = wfGetDB( DB_SLAVE )->selectRow(
+			$bPANewExists = \wfGetDB( \DB_SLAVE )->selectRow(
 				$sTable,
 				'*',
 				$aNewConds
@@ -172,14 +173,14 @@ class UserMergeConnector {
 			//Just delete the old users assignment, when the new user is already
 			//assigned to the same page
 			if( $bPANewExists ) {
-				$bRes = wfGetDB( DB_MASTER )->delete(
+				$bRes = \wfGetDB( \DB_MASTER )->delete(
 					$sTable,
 					$aOldConds,
 					__METHOD__
 				);
 				continue;
 			}
-			$bRes = wfGetDB( DB_MASTER )->update(
+			$bRes = \wfGetDB( \DB_MASTER )->update(
 				$sTable,
 				$aNewConds,
 				$aOldConds,
@@ -189,17 +190,17 @@ class UserMergeConnector {
 		return true;
 	}
 
-	public static function onMergeAccountFromToManageBSSocial( User &$oldUser, User &$newUser ) {
+	public static function onMergeAccountFromToManageBSSocial( \User &$oldUser, \User &$newUser ) {
 		if( !class_exists('BSSocial') ) {
 			return true;
 		}
 
-		$oEntity = BSSocialEntityProfile::newFromUser( $newUser );
+		$oEntity = \BSSocialEntityProfile::newFromUser( $newUser );
 		if( $oEntity && $oEntity->exists() ) {
 			$oEntity->delete();
 		}
 
-		$oRes = wfGetDB( DB_SLAVE )->select(
+		$oRes = \wfGetDB( \DB_SLAVE )->select(
 			'bs_social_entity',
 			'bsse_id',
 			array('bsse_ownerid' => (int) $oldUser->getId()),
@@ -207,7 +208,7 @@ class UserMergeConnector {
 		);
 
 		foreach( $oRes as $o ) {
-			if( !$oEntity = BSSocialEntity::newFromID($o->bsse_id) ) {
+			if( !$oEntity = \BSSocialEntity::newFromID($o->bsse_id) ) {
 				continue;
 			}
 			$oEntity
